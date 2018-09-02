@@ -2,8 +2,13 @@ import requests
 import os
 import sqlite3
 import mysql.connector
+<<<<<<< HEAD
 import sys
 def addDreamMYSQL(number, title, verses):
+=======
+
+def addHymnMYSQL(number, title, verses):
+>>>>>>> 63b352b8b1ecfd50fb688948672fdf1e9bfb4ee2
     mydb = mysql.connector.connect(
        host="bibledb.cvtfhbljhzkg.ap-southeast-2.rds.amazonaws.com",
        user="giovanni",
@@ -23,13 +28,20 @@ def addDreamMYSQL(number, title, verses):
     print(mycursor.rowcount, title, "successful")
 
 
+<<<<<<< HEAD
 def addDream(date, title, words, mp3, jpg, pdf):
         conn = sqlite3.connect('dreams.db')
         conn.execute("INSERT INTO DREAMS (DATE, TITLE, WORDS, MP3, JPG, PDF) VALUES(?, ?, ?)", (date, title, words, mp3, jpg,pdf));
+=======
+def addHymn(number, title, verses):
+        conn = sqlite3.connect('hymn2.db')
+        conn.execute("INSERT INTO HYMNS (NUMBER, TITLE, VERSES) VALUES(?, ?, ?)", (number, title, verses));
+>>>>>>> 63b352b8b1ecfd50fb688948672fdf1e9bfb4ee2
         conn.commit()
         print (str(number) + " " + str(title) + "  added successfully");
         conn.close()    
 
+<<<<<<< HEAD
 def insertDream(jpg, key):
         conn = sqlite3.connect('dreams.db')
         conn.execute("INSERT INTO DREAMS (JPG, KEY) VALUES(?, ?)", (jpg,key,));
@@ -101,6 +113,8 @@ for file in pdffiles:
 #print(pdffiles)
 """
 """
+=======
+>>>>>>> 63b352b8b1ecfd50fb688948672fdf1e9bfb4ee2
 response = requests.get('http://www.formypeople.org/dreams/')
 dreamtitles = str(response.content) #get the raw website content
 dreamtitles = dreamtitles.split('class="date">') #extract the date and title
@@ -108,7 +122,10 @@ del dreamtitles[155:]
 del dreamtitles[3:81]
 dreamtitles[::-1] #delete content at the end
  # delete content at the beginning
+<<<<<<< HEAD
 dreamList = []
+=======
+>>>>>>> 63b352b8b1ecfd50fb688948672fdf1e9bfb4ee2
 for title in dreamtitles[::-1]:
     if "formypeople.org/dream/" in title: # delete lines that don't contain a link to the dream
       index = dreamtitles.index(title)
@@ -123,6 +140,7 @@ for title in dreamtitles[::-1]:
       dreamNumber = getDreamNumber[0] # the order number of the dream
       dreamname2 = getDreamNumber[1][1::] #the dream name only without the number
       #print (index)
+<<<<<<< HEAD
       #print(dreamNumber)
       #print (dreamname2)
       #print (date)
@@ -206,3 +224,18 @@ for p in splitthedream:
 
 """
 	
+=======
+      print(dreamNumber)
+      print (dreamname2)
+      print (date)
+      print (purelink)
+      print()
+      response = requests.get(link) #get the dream page
+      dreampage = str(response.content)
+      dreamphoto = ""
+      dreammp3 = ""
+      dreamtext = ""
+      print(dreampage)
+
+      
+>>>>>>> 63b352b8b1ecfd50fb688948672fdf1e9bfb4ee2
