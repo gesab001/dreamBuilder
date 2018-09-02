@@ -5,9 +5,9 @@ import mysql.connector
 
 path = "/home/giovanni/Downloads/dreams/dreams/dreams/"
 
-def addDream(date, dreamNumber, title, mp3, jpg, pdf):
+def addDream(date, dreamNumber, title, mp3, jpg, pdf, link):
         conn = sqlite3.connect('dreams.db')
-        conn.execute("INSERT INTO DREAMS (DATE, DREAMNUMBER, TITLE, MP3, JPG, PDF) VALUES(?, ?, ?, ?, ?, ?)", (date, dreamNumber, title, mp3, jpg,pdf));
+        conn.execute("INSERT INTO DREAMS (DATE, DREAMNUMBER, TITLE, MP3, JPG, PDF, LINK) VALUES(?, ?, ?, ?, ?, ?, ?)", (date, dreamNumber, title, mp3, jpg, pdf, link));
         conn.commit()
         print (str(dreamNumber) + " " + str(title) + "  added successfully");
         conn.close()    
@@ -102,8 +102,25 @@ def getPDF(dream):
              if ".pdf" in y:
                 return y
 
+def getLink(dream):
+    string = readFile(dream)
+    dreamtitles = string.split('href="')
+    links = []
+    links = links[6:82]
+    for link in dreamtitles:
+       if "http://www.formypeople.org/dream" in link and link.startswith("http://www.formypeople.org/dream") and "-" in link:
+         index = '/"'
+         x = link.index(index)
+         if link not in links:
+           links.append(link[:x])
+    links = links[7:81]
+    #for link in links:
+    #   print(link)
+    #   print()     
+    return links  
 
-def extractRecords(files):
+def extractRecords(files, links):
+    count = 0
     for file in files:
         dreamString = readFile(file)
         date = getDate(dreamString)
@@ -112,7 +129,12 @@ def extractRecords(files):
         mp3 = getMP3(dreamString)
         jpg = getJPG(dreamString)
         pdf = getPDF(dreamString)
-        addDream(date, dreamNumber,title, mp3, jpg, pdf)
+        link = links[count]
+        addDream(date, dreamNumber,title, mp3, jpg, pdf, link)
+        count = count + 1
 
 files = getFiles()
-extractRecords(files)
+file = files[0]
+links = getLink(file)
+extractRecords(files, links)
+
