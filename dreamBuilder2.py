@@ -46,7 +46,29 @@ def getTitle(dream):
     y = dream.index("</title>")
     dreamTitlesplit = dream[x:y].split(". ")
     return dreamTitlesplit[1]
-#def getWords():
+
+
+
+def getWords(dream):
+    string = readFile(dream) 
+    asplit = string.split("<p>")
+    for x in asplit:
+      xsplit = x.split("<sup")
+      for y in xsplit:
+         ysplit = y.split("</script")
+         for z in ysplit:
+            z = z.replace("\\r\\n", "")
+            z = z.replace(">", "")
+            zsplit = z.split("fn-ref")
+            for a in zsplit:
+               asplit = a.split("fn-body")
+               for b in asplit:
+                 bsplit = b.split("</span")
+                 for c in bsplit:
+                    csplit = c.split("</p")
+                    for d in csplit:
+                        print(d)  
+                        print()
 
 def getMP3(dream):
    mp3 = ""
@@ -134,7 +156,7 @@ def extractRecords(files, links):
         count = count + 1
 
 files = getFiles()
-file = files[0]
-links = getLink(file)
-extractRecords(files, links)
-
+file = files[59]
+#links = getLink(file)
+#extractRecords(files, links)
+getWords(file)
